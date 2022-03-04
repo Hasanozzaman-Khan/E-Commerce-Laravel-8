@@ -23,9 +23,11 @@ class ColorController extends Controller
             // print_r($arr['0']);
             // die();
             $result['color'] = $arr['0']->color;
+            $result['status'] = $arr['0']->status;
             $result['id'] = $arr['0']->id;
         }else {
             $result['color'] = '';
+            $result['status'] = '';
             $result['id'] = 0;
         }
 

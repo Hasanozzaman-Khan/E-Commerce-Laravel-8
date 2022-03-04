@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -24,12 +25,22 @@ class CategoryController extends Controller
             // die();
             $result['category_name'] = $arr['0']->category_name;
             $result['category_slug'] = $arr['0']->category_slug;
+            $result['parent_category_id'] = $arr['0']->parent_category_id;
+            $result['category_image'] = $arr['0']->category_image;
             $result['id'] = $arr['0']->id;
+
+            $result['category'] = DB::table('categories')->where('id', '!=', $id)->get();
         }else {
             $result['category_name'] = '';
             $result['category_slug'] = '';
+            $result['parent_category_id'] = '';
+            $result['category_image'] = '';
             $result['id'] = 0;
+
+            $result['category'] = DB::table('categories')->where(['status' => 1])->get();
         }
+
+
 
         return view('admin.manage_category',$result);
     }
@@ -37,8 +48,10 @@ class CategoryController extends Controller
 
     public function manage_category_process(Request $request)
     {
+
         $request->validate([
             'category_name'=>'required',
+            'category_image'=>'required|mimes:jpeg,jpg,png',
             'category_slug' => 'required|unique:categories,category_slug,'.$request->post('id'),
         ]);
 
@@ -55,8 +68,18 @@ class CategoryController extends Controller
 
         }
 
+        if ($request->hasfile("category_image")) {
+            // $rand = rand('111111111','999999999');
+            $image = $request->file("category_image");
+            $ext = $image->extension();
+            $image_name = time().'.'.$ext;
+            $request->file("category_image")->storeAs('/public/media/category', $image_name);
+            $model->category_image = $image_name;
+        }
+
         $model->category_name = $request->post('category_name');
         $model->category_slug = $request->post('category_slug');
+        $model->parent_category_id = $request->post('parent_category_id');
         $model->status = 1;
         $model->save();
 

@@ -35,6 +35,15 @@ class ProductController extends Controller
             $result['technical_specification'] = $arr['0']->technical_specification;
             $result['uses'] = $arr['0']->uses;
             $result['warranty'] = $arr['0']->warranty;
+
+            $result['lead_time'] = $arr['0']->lead_time;
+            $result['tax_id'] = $arr['0']->tax_id;
+            $result['is_promo'] = $arr['0']->is_promo;
+            $result['is_featured'] = $arr['0']->is_featured;
+            $result['is_discounted'] = $arr['0']->is_discounted;
+            $result['is_tranding'] = $arr['0']->is_tranding;
+
+
             $result['status'] = $arr['0']->status;
             $result['id'] = $arr['0']->id;
 
@@ -63,6 +72,14 @@ class ProductController extends Controller
             $result['technical_specification'] = '';
             $result['uses'] = '';
             $result['warranty'] = '';
+
+            $result['lead_time'] =  '';
+            $result['tax_id'] = '';
+            $result['is_promo'] = '';
+            $result['is_featured'] = '';
+            $result['is_discounted'] = '';
+            $result['is_tranding'] = '';
+
             $result['status'] = '';
             $result['id'] = 0;
 
@@ -95,6 +112,8 @@ class ProductController extends Controller
         $result['brands'] = DB::table('brands')->where(['status' => 1])->get();
 
         $result['colors'] = DB::table('colors')->where(['status' => 1])->get();
+
+        $result['taxes'] = DB::table('taxes')->where(['status' => 1])->get();
 
         return view('admin.manage_product',$result);
     }
@@ -171,6 +190,14 @@ class ProductController extends Controller
         $model->technical_specification = $request->post('technical_specification');
         $model->uses = $request->post('uses');
         $model->warranty = $request->post('warranty');
+
+        $model->lead_time = $request->post('lead_time');
+        $model->tax_id = $request->post('tax_id');
+        $model->is_promo = $request->post('is_promo');
+        $model->is_featured = $request->post('is_featured');
+        $model->is_discounted = $request->post('is_discounted');
+        $model->is_tranding = $request->post('is_tranding');
+
         $model->status = 1;
         $model->save();
 

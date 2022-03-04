@@ -51,7 +51,7 @@
         </button>
   </a>
 
-
+  <script src="{{asset('ckeditor/ckeditor.js')}}"></script>
   <div class="row">
       <!-- START DATA TABLE-->
     <div class="col-md-12">
@@ -125,10 +125,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <!-- <div class="col-md-4">
-                                        <label for="brand" class="control-label mb-1">Brand</label>
-                                        <input id="brand" value="{{$brand}}" name="brand" type="text" class="form-control" aria-required="true" aria-invalid="false" required>
-                                    </div> -->
 
                                     <div class="col-md-4">
                                         <label for="model" class="control-label mb-1">Model</label>
@@ -169,7 +165,89 @@
                                 <textarea id="warranty"  name="warranty" rows="3" cols="80" class="form-control" aria-required="true" aria-invalid="false" required>{{$warranty}}</textarea>
                             </div>
 
+                            <div class="form-group">
+                                <div class="row">
 
+                                    <div class="col-md-8">
+                                        <label for="lead_time" class="control-label mb-1">Lead Time</label>
+                                        <input id="lead_time" value="{{$lead_time}}" name="lead_time" type="text" class="form-control" aria-required="true" aria-invalid="false">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="tax_id" class="control-label mb-1">Tax</label>
+                                        <select id="tax_id" class="form-control" name="tax_id" aria-required="true" aria-invalid="false" required>
+                                            <option value="">Select Tax</option>
+                                            @foreach($taxes as $list)
+                                                @if($tax_id==$list->id)
+                                                    <option selected value="{{$list->id}}">
+                                                @else
+                                                    <option value="{{$list->id}}">
+                                                @endif
+                                                {{$list->tax_desc}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <label for="is_promo" class="control-label mb-1">Is Promo</label>
+                                        <select id="is_promo" class="form-control" name="is_promo" aria-required="true" aria-invalid="false" required>
+                                            @if($is_promo=="1")
+                                                <option value="1" selected>Yes</option>
+                                                <option value="0">No</option>
+                                            @else
+                                                <option value="1">Yes</option>
+                                                <option value="0" selected>No</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="is_featured" class="control-label mb-1">Is Featured</label>
+                                        <select id="is_featured" class="form-control" name="is_featured" aria-required="true" aria-invalid="false" required>
+                                            @if($is_featured=="1")
+                                                <option value="1" selected>Yes</option>
+                                                <option value="0">No</option>
+                                            @else
+                                                <option value="1">Yes</option>
+                                                <option value="0" selected>No</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="is_discounted" class="control-label mb-1">Is Discounted</label>
+                                        <select id="is_discounted" class="form-control" name="is_discounted" aria-required="true" aria-invalid="false" required>
+                                            @if($is_discounted=="1")
+                                                <option value="1" selected>Yes</option>
+                                                <option value="0">No</option>
+                                            @else
+                                                <option value="1">Yes</option>
+                                                <option value="0" selected>No</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label for="is_tranding" class="control-label mb-1">Is Tranding</label>
+                                        <select id="is_tranding" class="form-control" name="is_tranding" aria-required="true" aria-invalid="false" required>
+                                            @if($is_tranding=="1")
+                                                <option value="1" selected>Yes</option>
+                                                <option value="0">No</option>
+                                            @else
+                                                <option value="1">Yes</option>
+                                                <option value="0" selected>No</option>
+                                            @endif
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
 
                             <input type="hidden" name="id" value="{{$id}}">
                         </div>
@@ -387,5 +465,9 @@
     function remove_image_more(loop_image_count){
         jQuery('.product_images_'+loop_image_count).remove();
     }
+
+    CKEDITOR.replace('short_desc');
+    CKEDITOR.replace('desc');
+    CKEDITOR.replace('technical_specification');
 </script>
 @endsection

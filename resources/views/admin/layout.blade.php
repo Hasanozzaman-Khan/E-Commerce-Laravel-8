@@ -76,10 +76,17 @@
                               <i class="fas fa-paint-brush"></i>Color</a>
                       </li>
 
+                      <li class="@yield('tax_select')">
+                          <a  href="{{url('admin/tax')}}">
+                              <i class="fa fa-product-hunt"></i>Tax</a>
+                      </li>
+                      
                       <li class="@yield('product_select')">
                           <a  href="{{url('admin/product')}}">
                               <i class="fas fa-product-hunt"></i>Product</a>
                       </li>
+
+
 
                   </ul>
               </div>
@@ -125,10 +132,17 @@
                               <i class="fas fa-paint-brush"></i>Color</a>
                       </li>
 
+                      <li class="@yield('tax_select')">
+                          <a  href="{{url('admin/tax')}}">
+                              <i class="fa fa-product-hunt"></i>Tax</a>
+                      </li>
+
                       <li class="@yield('product_select')">
                           <a  href="{{url('admin/product')}}">
                               <i class="fa fa-product-hunt"></i>Product</a>
                       </li>
+
+
 
                   </ul>
               </nav>
