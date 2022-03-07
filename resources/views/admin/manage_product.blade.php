@@ -85,6 +85,12 @@
                             <div class="form-group">
                                 <label for="image" class="control-label mb-1">Image</label>
                                 <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$image_required}}>
+                                @if($image != '')
+                                    <a href="{{asset('storage/media/'.$image)}}" target="_blank">
+                                        <img width="50px" src="{{asset('storage/media/'.$image)}}" alt="image">
+                                    </a>
+                                @endif
+
                                 @error('image')
                                     <div class="alert alert-danger" role="alert">
                                       {{$message}}
@@ -268,35 +274,37 @@
                                 <div class="row" id="product_images_box">
                                     @php
                                         $loop_count_num = 1;
-
                                     @endphp
+
                                     @foreach($productImagesArr as $key=>$val)
 
-                                    @php
-                                        $loop_count_prev = $loop_count_num;
-                                        $pIArr = (array)$val;
-                                    @endphp
-                                    <input id="piid"  name="piid[]" value="{{$pIArr['id']}}" type="hidden">
-                                    <div class="col-md-4 product_images_{{$loop_count_num++}}" >
-                                        <label for="images" class="control-label mb-1">Image Attributes</label>
-                                        <input id="images" name="images[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
-                                        @if($pIArr['images'] != '')
-                                            <a href="{{asset('storage/media/'.$pIArr['images'])}}" target="_blank"><img width="50px" src="{{asset('storage/media/'.$pIArr['images'])}}" alt="image"></a>
+                                        @php
+                                            $loop_count_prev = $loop_count_num;
+                                            $pIArr = (array)$val;
+                                        @endphp
+                                        <input id="piid"  name="piid[]" value="{{$pIArr['id']}}" type="hidden">
+                                        <div class="col-md-4 product_images_{{$loop_count_num++}}" >
+                                            <label for="images" class="control-label mb-1">Image Attributes</label>
+                                            <input id="images" name="images[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
+                                            @if($pIArr['images'] != '')
+                                                <a href="{{asset('storage/media/'.$pIArr['images'])}}" target="_blank">
+                                                    <img width="50px" src="{{asset('storage/media/'.$pIArr['images'])}}" alt="image">
+                                                </a>
 
-                                        @endif
-                                    </div>
+                                            @endif
+                                        </div>
 
-                                    <div class="col-md-2">
-                                        <label for="sku" class="control-label mb-1">&nbsp;&nbsp;&nbsp;</label>
-                                        @if($loop_count_num ==2)
-                                            <button type="button" class="btn btn-success btn-lg mt-4" onclick="add_image_more()"><i class="fa fa-plus"></i>Add</button>
-                                        @else
-                                            <a href="{{url('admin/product/product_images_delete')}}/{{$pIArr['id']}}/{{$id}}">
-                                                <button class="btn btn-lg btn-danger mt-4" type="button" name="button">Delete</button>
-                                            </a>
-                                            <!-- <button type="button" class="btn btn-danger btn-lg mt-4" ><i class="fa fa-minus"></i> Remove</button> -->
-                                        @endif
-                                    </div>
+                                        <div class="col-md-2">
+                                            <label for="sku" class="control-label mb-1">&nbsp;&nbsp;&nbsp;</label>
+                                            @if($loop_count_num ==2)
+                                                <button type="button" class="btn btn-success btn-lg mt-4" onclick="add_image_more()"><i class="fa fa-plus"></i>Add</button>
+                                            @else
+                                                <a href="{{url('admin/product/product_images_delete')}}/{{$pIArr['id']}}/{{$id}}">
+                                                    <button class="btn btn-lg btn-danger mt-4" type="button" name="button">Delete</button>
+                                                </a>
+                                                <!-- <button type="button" class="btn btn-danger btn-lg mt-4" ><i class="fa fa-minus"></i> Remove</button> -->
+                                            @endif
+                                        </div>
                                     @endforeach
                                 </div>
 
@@ -386,7 +394,9 @@
                                         <label for="attr_image" class="control-label mb-1">Image Attributes</label>
                                         <input id="attr_image" name="attr_image[]" type="file" class="form-control" aria-required="true" aria-invalid="false">
                                         @if($pAArr['attr_image'] != '')
-                                            <img width="50px" src="{{asset('storage/media/'.$pAArr['attr_image'])}}" alt="image">
+                                            <a href="{{asset('storage/media/'.$pAArr['attr_image'])}}" target="_blank">
+                                                <img width="50px" src="{{asset('storage/media/'.$pAArr['attr_image'])}}" alt="image">
+                                            </a>
                                         @endif
                                     </div>
                                     <div class="col-md-2">

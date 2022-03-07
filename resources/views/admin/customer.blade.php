@@ -1,8 +1,8 @@
 @extends('admin/layout')
 
-@section('page_title', 'Brand')
+@section('page_title', 'Customer')
 
-@section('brand_select', 'active')
+@section('customer_select', 'active')
 
 @section('container')
 
@@ -16,12 +16,12 @@
     @endif
 
 
-  <h3>Brand</h3>
-  <a class="my-3" href="{{url('admin/brand/manage_brand')}}">
+  <h3>Customer</h3>
+  <!-- <a class="my-3" href="{{url('admin/tax/manage_tax')}}">
       <button class="btn btn-success" type="button" name="button">
-          Add Brand
+          Add Tax
       </button>
-  </a>
+  </a> -->
 
 
   <div class="row">
@@ -32,8 +32,10 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Brand</th>
-                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>City</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -42,29 +44,23 @@
                     <tr>
                         <td>{{$list->id}}</td>
                         <td>{{$list->name}}</td>
+                        <td>{{$list->email}}</td>
+                        <td>{{$list->mobile}}</td>
+                        <td>{{$list->city}}</td>
                         <td>
-                            @if($list->image != '')
-                                <img width="50px" src="{{asset('storage/media/brand/'.$list->image)}}" alt="image">
-                            @endif
-                        </td>
-                        <td>
-                            <a href="{{url('admin/brand/manage_brand')}}/{{$list->id}}">
-                                <button class="btn btn-sm btn-success" type="button" name="button">Edit</button>
+                            <a href="{{url('admin/customer/show')}}/{{$list->id}}">
+                                <button class="btn btn-sm btn-success" type="button" name="button">View</button>
                             </a>
 
                             @if($list->status == 1)
-                                <a href="{{url('admin/brand/status/0')}}/{{$list->id}}">
+                                <a href="{{url('admin/customer/status/0')}}/{{$list->id}}">
                                     <button class="btn btn-sm btn-warning" type="button" name="button">Deactive</button>
                                 </a>
                             @else
-                                <a href="{{url('admin/brand/status/1')}}/{{$list->id}}">
+                                <a href="{{url('admin/customer/status/1')}}/{{$list->id}}">
                                     <button class="btn btn-sm btn-primary" type="button" name="button">Active</button>
                                 </a>
                             @endif
-
-                            <a href="{{url('admin/brand/delete')}}/{{$list->id}}">
-                                <button class="btn btn-sm btn-danger" type="button" name="button">Delete</button>
-                            </a>
 
                         </td>
                     </tr>

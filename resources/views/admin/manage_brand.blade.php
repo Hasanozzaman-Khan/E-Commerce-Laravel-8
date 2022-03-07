@@ -6,16 +6,6 @@
 @section('container')
   <div class="row">
   </div>
-      @if($id>0)
-          @php
-              $image_required = "";
-          @endphp
-      @else
-          @php
-              $image_required = "required";
-          @endphp
-      @endif
-
 
       @error('image.*')
         <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
@@ -60,7 +50,7 @@
 
                         <div class="form-group">
                             <label for="image" class="control-label mb-1">Image</label>
-                            <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false" {{$image_required}}>
+                            <input id="image" name="image" type="file" class="form-control" aria-required="true" aria-invalid="false">
                             @error('image')
                                 <div class="alert alert-danger" role="alert">
                                   {{$message}}
@@ -68,8 +58,15 @@
                             @enderror
 
                             @if($image != '')
-                                <img width="50px" src="{{asset('storage/media/model/'.$image)}}" alt="image">
+                                <a href="{{asset('storage/media/brand/'.$image)}}">
+                                    <img width="50px" src="{{asset('storage/media/brand/'.$image)}}" alt="image">
+                                </a>
                             @endif
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="is_home" class="control-label mb-1">Show in Home Page</label>
+                            <input id="is_home" name="is_home" type="checkbox" {{$is_home_selected}}>
                         </div>
 
                         <div>
