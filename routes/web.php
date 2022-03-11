@@ -1,5 +1,6 @@
 <?php
 
+/* ******** Admin Controller Start ************/
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CouponController;
@@ -8,8 +9,12 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\CustomerController;
-
 use App\Http\Controllers\Admin\ProductController;
+/* ******** Admin Controller End ************/
+
+/* ******** Front Controller Start ************/
+use App\Http\Controllers\Front\FrontController;
+/* ******** Front Controller End ************/
 
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +31,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+
+/* ******** Front Routes Start ************/
+Route::get('/', [FrontController::class, 'index']);
+/* ******** Front Routes End ************/
+
+/* ******** Admin Routes Start ************/
 Route::get('admin', [AdminController::class, 'index']);
 Route::post('admin/auth', [AdminController::class, 'auth'])->name('admin.auth');
 
@@ -111,3 +122,4 @@ Route::group(['middleware'=>'admin_auth'], function(){
         return redirect('admin');
     });
 });
+/* ******** Admin Routes End ************/
