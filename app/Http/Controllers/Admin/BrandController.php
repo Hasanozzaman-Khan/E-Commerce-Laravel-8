@@ -108,6 +108,10 @@ class BrandController extends Controller
         $model = Brand::find($id);
         $model->delete();
 
+        if (Storage::exists('/public/media/brand/'.$model->image)) {
+            Storage::delete('/public/media/brand/'.$model->image);
+        }
+
         $request->session()->flash('message','Brand deleted successfully.');
 
         return redirect('admin/brand');

@@ -94,9 +94,13 @@ class FrontController extends Controller
                 ->get();
         }
 
-        echo '<pre>';
-        print_r($result);
-        die();
+// Home Banner
+        $result['home_banner'] = DB::table('home_banners')
+                ->where(['status'=>1])
+                ->get();
+        // echo '<pre>';
+        // print_r($result);
+        // die();
 
         return view('front.index', $result);
     }

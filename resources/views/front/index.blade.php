@@ -10,65 +10,20 @@
           <div class="seq-screen">
             <ul class="seq-canvas">
               <!-- single slide item -->
+              @foreach($home_banner as $list)
               <li>
                 <div class="seq-model">
-                  <img data-seq src="{{asset('front_assets/img/slider/1.jpg')}}" alt="Men slide img" />
+                  <img data-seq src="{{asset('storage/media/banner/'.$list->image)}}" alt="Men slide img" />
                 </div>
+                @if($list->btn_text != '')
                 <div class="seq-title">
-                 <span data-seq>Save Up to 75% Off</span>
-                  <h2 data-seq>Men Collection</h2>
-                  <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                  <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
+                  <h2 data-seq>{{$list->btn_text}}</h2>
+                  <a data-seq target="_blank" href="{{$list->btn_link}}" class="aa-shop-now-btn aa-secondary-btn">{{$list->btn_text}}</a>
                 </div>
+                @endif
               </li>
-              <!-- single slide item -->
-              <li>
-                <div class="seq-model">
-                  <img data-seq src="{{asset('front_assets/img/slider/2.jpg')}}" alt="Wristwatch slide img" />
-                </div>
-                <div class="seq-title">
-                  <span data-seq>Save Up to 40% Off</span>
-                  <h2 data-seq>Wristwatch Collection</h2>
-                  <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                  <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-              </li>
-              <!-- single slide item -->
-              <li>
-                <div class="seq-model">
-                  <img data-seq src="{{asset('front_assets/img/slider/3.jpg')}}" alt="Women Jeans slide img" />
-                </div>
-                <div class="seq-title">
-                  <span data-seq>Save Up to 75% Off</span>
-                  <h2 data-seq>Jeans Collection</h2>
-                  <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                  <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-              </li>
-              <!-- single slide item -->
-              <li>
-                <div class="seq-model">
-                  <img data-seq src="{{asset('front_assets/img/slider/4.jpg')}}" alt="Shoes slide img" />
-                </div>
-                <div class="seq-title">
-                  <span data-seq>Save Up to 75% Off</span>
-                  <h2 data-seq>Exclusive Shoes</h2>
-                  <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                  <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-              </li>
-              <!-- single slide item -->
-               <li>
-                <div class="seq-model">
-                  <img data-seq src="{{asset('front_assets/img/slider/5.jpg')}}" alt="Male Female slide img" />
-                </div>
-                <div class="seq-title">
-                  <span data-seq>Save Up to 50% Off</span>
-                  <h2 data-seq>Best Collection</h2>
-                  <p data-seq>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, illum.</p>
-                  <a data-seq href="#" class="aa-shop-now-btn aa-secondary-btn">SHOP NOW</a>
-                </div>
-              </li>
+              @endforeach
+
             </ul>
           </div>
           <!-- slider navigation btn -->

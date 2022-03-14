@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\HomeBannerController;
 /* ******** Admin Controller End ************/
 
 /* ******** Front Controller Start ************/
@@ -86,6 +87,14 @@ Route::group(['middleware'=>'admin_auth'], function(){
     Route::post('admin/tax/manage_tax_process', [TaxController::class, 'manage_tax_process'])->name('tax.manage_tax_process');
     Route::get('admin/tax/delete/{id}', [TaxController::class, 'delete']);
     Route::get('admin/tax/status/{status}/{id}', [TaxController::class, 'status']);
+
+// Home Banner Routes
+    Route::get('admin/home_banner', [HomeBannerController::class, 'index']);
+    Route::get('admin/home_banner/manage_home_banner', [HomeBannerController::class, 'manage_home_banner']);
+    Route::get('admin/home_banner/manage_home_banner/{id}', [HomeBannerController::class, 'manage_home_banner']);
+    Route::post('admin/home_banner/manage_home_banner_process', [HomeBannerController::class, 'manage_home_banner_process'])->name('home_banner.manage_home_banner_process');
+    Route::get('admin/home_banner/delete/{id}', [HomeBannerController::class, 'delete']);
+    Route::get('admin/home_banner/status/{status}/{id}', [HomeBannerController::class, 'status']);
 
 // Customer Routes
     Route::get('admin/customer', [CustomerController::class, 'index']);
