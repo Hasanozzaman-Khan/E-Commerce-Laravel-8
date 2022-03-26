@@ -4182,3 +4182,16 @@ img {
     padding: 5px 2px;
   }
 }
+.lead_time{
+    color: red;
+    margin-top: -12px;
+    font-size: 13px;
+    font: bold;
+}
+
+.aa-color-red{
+    background-color: red;
+}
+.aa-color-cyan{
+    background-color: cyan;
+}

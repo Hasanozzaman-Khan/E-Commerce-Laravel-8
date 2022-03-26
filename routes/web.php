@@ -39,6 +39,7 @@ use Illuminate\Support\Facades\Route;
 
 /* ******** Front Routes Start ************/
 Route::get('/', [FrontController::class, 'index']);
+Route::get('product/{slug}', [FrontController::class, 'product']);
 /* ******** Front Routes End ************/
 
 /* ******** Admin Routes Start ************/
