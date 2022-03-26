@@ -127,6 +127,14 @@ class FrontController extends Controller
                 ->get();
         }
 
+        foreach ($result['product'] as $list1) {
+            $result['product_images'][$list1->id] =
+                DB::table('product_images')
+                ->where(['product_images.products_id'=>$list1->id])
+                ->get();
+        }
+
+
 // Related Products
         $result['related_product'] =
             DB::table('products')
@@ -142,7 +150,7 @@ class FrontController extends Controller
                 ->leftJoin('colors','colors.id','=','products_attr.color_id')
                 ->get();
         }
-        // prx($result['product_attr'][$result['product'][0]->id]);
+        // prx($result);
         return view('front.product', $result);
     }
 

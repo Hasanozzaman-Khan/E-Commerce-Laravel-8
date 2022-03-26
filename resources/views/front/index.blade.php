@@ -1,5 +1,6 @@
 @extends('front/layout')
 
+@section('page_title', 'Home')
 
 @section('container')
 

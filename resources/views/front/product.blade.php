@@ -1,6 +1,6 @@
 @extends('front/layout')
 
-
+@section('page_title', $product[0]->name)
 
 @section('container')
 
@@ -37,22 +37,18 @@
                     <div class="simpleLens-container">
                       <div class="simpleLens-big-image-container"><a data-lens-image="{{asset('storage/media/'.$product[0]->image)}}" class="simpleLens-lens-image"><img src="{{asset('storage/media/'.$product[0]->image)}}" class="simpleLens-big-image"></a></div>
                     </div>
-                    @if(isset($product_attr[$product[0]->id][0]->attr_image))
+
+                    @if(isset($product_images[$product[0]->id][0]))
                         <div class="simpleLens-thumbnails-container">
 
-                            @foreach($product_attr[$product[0]->id] as $productArr)
-                                <a data-big-image="{{asset('storage/media/'.$productArr->attr_image)}}" data-lens-image="{{asset('storage/media/'.$productArr->attr_image)}}" class="simpleLens-thumbnail-wrapper" href="#">
-                                  <img src="{{asset('storage/media/'.$productArr->attr_image)}}"  width="75px" height="75px">
+                            @foreach($product_images[$product[0]->id] as $productImage)
+                                <a data-big-image="{{asset('storage/media/'.$productImage->images)}}" data-lens-image="{{asset('storage/media/'.$productImage->images)}}" class="simpleLens-thumbnail-wrapper" href="javascript:void(0)">
+                                  <img src="{{asset('storage/media/'.$productImage->images)}}"  width="75px" height="75px">
                                 </a>
                             @endforeach
                         </div>
-                    @else
-                            <li>
-                                <figure>
-                                    No data found!
-                                </figure>
-                            </li>
                     @endif
+
                   </div>
                 </div>
               </div>
@@ -72,17 +68,17 @@
                   <h4>Size</h4>
                   <div class="aa-prod-view-size">
 
-                    @foreach($product_attr[$product[0]->id] as $size)
-                      @if($size->size != '')
-                        <a href="#">{{$size->size}}</a>
+                    @foreach($product_attr[$product[0]->id] as $attr)
+                      @if($attr->size != '')
+                        <a href="#">{{$attr->size}}</a>
                       @endif
                     @endforeach
                   </div>
                   <h4>Color</h4>
                   <div class="aa-color-tag">
-                      @foreach($product_attr[$product[0]->id] as $color)
-                        @if($color->color != '')
-                            <a href="#" class="aa-color-{{strtolower($color->color)}}"></a>
+                      @foreach($product_attr[$product[0]->id] as $attr)
+                        @if($attr->color != '')
+                            <a  href="javascript:void(0)" onclick=change_product_color_image("{{asset('storage/media/'.$attr->attr_image)}}") class="aa-color-{{strtolower($attr->color)}}"></a>
                         @endif
                       @endforeach
 
