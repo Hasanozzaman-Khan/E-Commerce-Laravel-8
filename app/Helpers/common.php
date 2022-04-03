@@ -53,4 +53,21 @@ function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
 	}
 	return $html;
 }
+
+
+// function getUserTempId(){
+//
+//     if (session()->has('USER_TEMP_ID')===null){
+//         // return sesson()->has('USER_TEMP_ID');
+//         $rand = rand(111111111,999999999);
+//         session()->put('USER_TEMP_ID',$rand);
+//         return $rand;
+//     }else{
+//        //  $rand = rand(111111111,999999999);
+//        // session()->put('USER_TEMP_ID',$rand);
+//        // return $rand;
+//         return sesson()->has('USER_TEMP_ID');
+//     }
+//
+// }
 ?>
