@@ -41,6 +41,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [FrontController::class, 'index']);
 Route::get('product/{slug}', [FrontController::class, 'product']);
 Route::post('add_to_cart', [FrontController::class, 'add_to_cart']);
+Route::get('cart', [FrontController::class, 'cart']);
 /* ******** Front Routes End ************/
 
 /* ******** Admin Routes Start ************/
