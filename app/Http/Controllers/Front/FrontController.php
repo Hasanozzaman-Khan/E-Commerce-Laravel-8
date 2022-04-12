@@ -225,7 +225,18 @@ class FrontController extends Controller
             ]);
             $msg = "Added successfully.";
         }
-        return response()->json(['msg'=>$msg]);
+
+        $result = DB::table('cart')
+                ->leftJoin('products','products.id','=','cart.product_id')
+                ->leftJoin('products_attr','products_attr.id','=','cart.product_attr_id')
+                ->leftJoin('sizes','sizes.id','=','products_attr.size_id')
+                ->leftJoin('colors','colors.id','=','products_attr.color_id')
+                ->where(['user_id'=>$uid])
+                ->where(['user_type'=>$user_type])
+                ->select('cart.qty', 'products.name', 'products.image', 'sizes.size', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
+                ->get();
+
+        return response()->json(['msg'=>$msg, 'data'=>$result, 'totalItem'=>count($result)]);
         // echo $uid;
         // echo $user_type;
 
@@ -238,15 +249,15 @@ class FrontController extends Controller
            $uid = $request->sesson()->get('FRONT_USER_LOGIN');
            $user_type = "Reg";
        }else {
-           // $uid = getUserTempId();
-           if (session()->has('USER_TEMP_ID')) {
-
-               $uid = $request->session()->get('USER_TEMP_ID');
-           }else {
-               $rand = rand(111111111,999999999);
-               session()->put('USER_TEMP_ID',$rand);
-               $uid = $rand;
-           }
+           $uid = getUserTempId();
+           // if (session()->has('USER_TEMP_ID')) {
+           //
+           //     $uid = $request->session()->get('USER_TEMP_ID');
+           // }else {
+           //     $rand = rand(111111111,999999999);
+           //     session()->put('USER_TEMP_ID',$rand);
+           //     $uid = $rand;
+           // }
            $user_type = "Not-Reg";
        }
 

@@ -55,19 +55,47 @@ function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
 }
 
 
-// function getUserTempId(){
-//
-//     if (session()->has('USER_TEMP_ID')===null){
-//         // return sesson()->has('USER_TEMP_ID');
-//         $rand = rand(111111111,999999999);
-//         session()->put('USER_TEMP_ID',$rand);
-//         return $rand;
-//     }else{
-//        //  $rand = rand(111111111,999999999);
-//        // session()->put('USER_TEMP_ID',$rand);
-//        // return $rand;
-//         return sesson()->has('USER_TEMP_ID');
-//     }
-//
-// }
+function getUserTempId(){
+
+    if (session()->has('USER_TEMP_ID')) {
+
+        Return session()->get('USER_TEMP_ID');
+    }else {
+        $rand = rand(111111111,999999999);
+        session()->put('USER_TEMP_ID',$rand);
+        Return  $rand;
+    }
+
+}
+
+
+
+function getAddToCartTotalItem(){
+
+    if (session()->exists('FRONT_USER_LOGIN')){
+       $uid = sesson()->get('FRONT_USER_LOGIN');
+       $user_type = "Reg";
+   }else {
+       $uid = getUserTempId();
+       $user_type = "Not-Reg";
+   }
+
+   // $result = DB::table('cart')
+   //         ->where(['user_id'=>$uid])
+   //         ->where(['user_type'=>$user_type])
+   //         ->get();
+   $result = DB::table('cart')
+           ->leftJoin('products','products.id','=','cart.product_id')
+           ->leftJoin('products_attr','products_attr.id','=','cart.product_attr_id')
+           ->leftJoin('sizes','sizes.id','=','products_attr.size_id')
+           ->leftJoin('colors','colors.id','=','products_attr.color_id')
+           ->where(['user_id'=>$uid])
+           ->where(['user_type'=>$user_type])
+           ->select('cart.qty', 'products.name', 'products.image', 'sizes.size', 'colors.color', 'products_attr.price', 'products.slug', 'products.id as pid', 'products_attr.id as attr_id')
+           ->get();
+
+    return $result;
+}
+
+
 ?>
