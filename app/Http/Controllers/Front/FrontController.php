@@ -106,6 +106,38 @@ class FrontController extends Controller
     }
 
 
+// Product Category Page
+    public function category(Request $request, $slug)
+    {
+        $result['product'] =
+            DB::table('products')
+            ->leftJoin('categories','categories.id','=','products.category_id')
+            ->where(['products.status'=>1])
+            ->where(['categories.category_slug'=>$slug])
+            ->select('products.id', 'products.category_id', 'products.name', 'products.image', 'products.slug')
+            ->get();
+// prx($result);
+
+        // $result['product'] =
+        //     DB::table('products')
+        //     ->leftJoin('categories','categories.id','=','products.category_id')
+        //     ->where(['products.status'=>1])
+        //     ->where(['categories.category_slug'=>$slug])
+        //     ->get();
+
+        foreach ($result['product'] as $list1) {
+            $result['product_attr'][$list1->id] =
+                DB::table('products_attr')
+                ->leftJoin('sizes','sizes.id','=','products_attr.size_id')
+                ->leftJoin('colors','colors.id','=','products_attr.color_id')
+                ->where(['products_attr.products_id'=>$list1->id])
+                ->get();
+        }
+// prx($result);
+        return view('front.category', $result);
+    }
+
+
 // Product Details Page
     public function product(Request $request, $slug)
     {
