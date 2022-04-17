@@ -448,3 +448,10 @@ function updateQty(pid,size,color,attr_id,price){
     add_to_cart(pid,size,color);
     jQuery('#total_price_'+attr_id).html('TK. '+qty*price);
 }
+
+
+function sort_by(){
+    var sort_by_value = jQuery('#sort_by_value').val();
+    jQuery('#sort').val(sort_by_value);
+    jQuery('#categoryFilter').submit();
+}
