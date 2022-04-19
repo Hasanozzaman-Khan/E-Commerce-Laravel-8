@@ -111,6 +111,8 @@ class FrontController extends Controller
     {
         $sort = "";
         $sort_text = "";
+        $filter_price_start = "";
+        $filter_price_end = "";
         if ($request->get('sort') !== null) {
             $sort = $request->get('sort');
         }
@@ -139,6 +141,16 @@ class FrontController extends Controller
             $query = $query->orderBy('products_attr.price', 'desc');
             $sort_text = "Price - DESC";
         }
+
+        if ($request->get('filter_price_start') !== null && $request->get('filter_price_end') !== null) {
+            $filter_price_start = $request->get('filter_price_start');
+            $filter_price_end = $request->get('filter_price_end');
+            if ($filter_price_start>0 && $filter_price_end>0) {
+                $query = $query->whereBetween('products_attr.price',[$filter_price_start, $filter_price_end]);
+
+            }
+        }
+
         $query = $query->get();
         $result['product'] = $query;
 // prx($result);
@@ -149,12 +161,15 @@ class FrontController extends Controller
             $query1 = $query1->leftJoin('sizes','sizes.id','=','products_attr.size_id');
             $query1 = $query1->leftJoin('colors','colors.id','=','products_attr.color_id');
             $query1 = $query1->where(['products_attr.products_id'=>$list1->id]);
+
             $query1 = $query1->get();
             $result['product_attr'][$list1->id] = $query1;
         }
 // prx($result);
         $result['sort'] = $sort;
         $result['sort_text'] = $sort_text;
+        $result['filter_price_start'] = $filter_price_start;
+        $result['filter_price_end'] = $filter_price_end;
         return view('front.category', $result);
     }
 

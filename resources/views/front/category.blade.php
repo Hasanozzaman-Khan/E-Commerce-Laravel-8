@@ -126,7 +126,7 @@
                 </div>
                 <span id="skip-value-lower" class="example-val">30.00</span>
                <span id="skip-value-upper" class="example-val">100.00</span>
-               <button class="aa-filter-btn" type="submit">Filter</button>
+               <button class="aa-filter-btn" type="button" onclick="sort_price_filter()">Filter</button>
              </form>
             </div>
 
@@ -229,6 +229,8 @@
 
 <form id="categoryFilter">
     <input type="hidden" id="sort" name="sort" value="{{$sort}}">
+    <input type="hidden" id="filter_price_start" name="filter_price_start" value="{{$filter_price_start}}">
+    <input type="hidden" id="filter_price_end" name="filter_price_end" value="{{$filter_price_end}}">
 </form>
 
 @endsection

@@ -240,23 +240,31 @@ jQuery(function($){
     jQuery(function(){
       if($('body').is('.productPage')){
        var skipSlider = document.getElementById('skipstep');
+
+       var filter_price_start = jQuery('#filter_price_start').val();
+       var filter_price_end = jQuery('#filter_price_end').val();
+
+       if (filter_price_start =='' || filter_price_end =='') {
+           var filter_price_start = 100;
+           var filter_price_end = 1700;
+       }
         noUiSlider.create(skipSlider, {
             range: {
                 'min': 0,
-                '10%': 10,
-                '20%': 20,
-                '30%': 30,
-                '40%': 40,
-                '50%': 50,
-                '60%': 60,
-                '70%': 70,
-                '80%': 80,
-                '90%': 90,
-                'max': 100
+                '10%': 100,
+                '20%': 300,
+                '30%': 500,
+                '40%': 700,
+                '50%': 900,
+                '60%': 1100,
+                '70%': 1300,
+                '80%': 1500,
+                '90%': 1700,
+                'max': 1900
             },
             snap: true,
             connect: true,
-            start: [20, 70]
+            start: [filter_price_start, filter_price_end]
         });
         // for value print
         var skipValues = [
@@ -453,5 +461,14 @@ function updateQty(pid,size,color,attr_id,price){
 function sort_by(){
     var sort_by_value = jQuery('#sort_by_value').val();
     jQuery('#sort').val(sort_by_value);
+    jQuery('#categoryFilter').submit();
+}
+
+
+function sort_price_filter(){
+    var start = jQuery('#skip-value-lower').html();
+    var end = jQuery('#skip-value-upper').html();
+    jQuery('#filter_price_start').val(start);
+    jQuery('#filter_price_end').val(end);
     jQuery('#categoryFilter').submit();
 }
