@@ -135,18 +135,13 @@
           <div class="aa-sidebar-widget">
             <h3>Shop By Color</h3>
             <div class="aa-color-tag">
-              <a class="aa-color-green" href="#"></a>
-              <a class="aa-color-yellow" href="#"></a>
-              <a class="aa-color-pink" href="#"></a>
-              <a class="aa-color-purple" href="#"></a>
-              <a class="aa-color-blue" href="#"></a>
-              <a class="aa-color-orange" href="#"></a>
-              <a class="aa-color-gray" href="#"></a>
-              <a class="aa-color-black" href="#"></a>
-              <a class="aa-color-white" href="#"></a>
-              <a class="aa-color-cyan" href="#"></a>
-              <a class="aa-color-olive" href="#"></a>
-              <a class="aa-color-orchid" href="#"></a>
+                @foreach($colors as $color)
+                    @if(in_array($color->id,$colorFilterArr))
+                        <a class="aa-color-{{strtolower($color->color)}} active_color" href="javascript:void(0)" onclick="setColor('{{$color->id}}','1')"></a>
+                    @else
+                        <a class="aa-color-{{strtolower($color->color)}}" href="javascript:void(0)" onclick="setColor('{{$color->id}}','0')"></a>
+                    @endif
+                @endforeach
             </div>
           </div>
           <!-- single sidebar -->
@@ -231,6 +226,7 @@
     <input type="hidden" id="sort" name="sort" value="{{$sort}}">
     <input type="hidden" id="filter_price_start" name="filter_price_start" value="{{$filter_price_start}}">
     <input type="hidden" id="filter_price_end" name="filter_price_end" value="{{$filter_price_end}}">
+    <input type="hidden" id="color_filter" name="color_filter"  value="{{$color_filter}}">
 </form>
 
 @endsection

@@ -472,3 +472,16 @@ function sort_price_filter(){
     jQuery('#filter_price_end').val(end);
     jQuery('#categoryFilter').submit();
 }
+
+function setColor(color, type){
+    var color_str = jQuery('#color_filter').val();
+    if (type == 1) {
+        var new_color_str = color_str.replace(color+':','');
+        jQuery('#color_filter').val(new_color_str);
+    }else {
+        jQuery('#color_filter').val(color+':'+color_str);
+    }
+
+    jQuery('#categoryFilter').submit();
+    // alert(color);
+}

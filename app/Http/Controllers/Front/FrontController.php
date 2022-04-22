@@ -113,6 +113,9 @@ class FrontController extends Controller
         $sort_text = "";
         $filter_price_start = "";
         $filter_price_end = "";
+        $color_filter = "";
+        $colorFilterArr = [];
+
         if ($request->get('sort') !== null) {
             $sort = $request->get('sort');
         }
@@ -124,7 +127,7 @@ class FrontController extends Controller
         $query = $query->where(['products.status'=>1]);
         $query = $query->where(['categories.category_slug'=>$slug]);
         // $query = $query->select('products.id', 'products.category_id', 'products.name', 'products.image', 'products.slug');
-        $query = $query->distinct()->select('products.*');
+
         if ($sort == 'name') {
             $query = $query->orderBy('products.name', 'desc');
             $sort_text = "Product Name";
@@ -151,6 +154,16 @@ class FrontController extends Controller
             }
         }
 
+        if ($request->get('color_filter') !== null) {
+            $color_filter = $request->get('color_filter');
+            $colorFilterArr = explode(":", $color_filter);
+            $colorFilterArr = array_filter($colorFilterArr);
+            // prx($colorFilterArr);
+            $query = $query->where(['products_attr.color_id' => $request->get('color_filter')]);
+
+        }
+
+        $query = $query->distinct()->select('products.*');
         $query = $query->get();
         $result['product'] = $query;
 // prx($result);
@@ -165,11 +178,18 @@ class FrontController extends Controller
             $query1 = $query1->get();
             $result['product_attr'][$list1->id] = $query1;
         }
-// prx($result);
+
+        $result['colors'] =
+            DB::table('colors')
+            ->where(['status'=>1])
+            ->get();
+// prx($result['colors']);
         $result['sort'] = $sort;
         $result['sort_text'] = $sort_text;
         $result['filter_price_start'] = $filter_price_start;
         $result['filter_price_end'] = $filter_price_end;
+        $result['color_filter'] = $color_filter;
+        $result['colorFilterArr'] = $colorFilterArr;
         return view('front.category', $result);
     }
 

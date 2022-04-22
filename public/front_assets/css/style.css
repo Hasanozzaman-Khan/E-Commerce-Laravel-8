@@ -4198,3 +4198,6 @@ img {
 #add_to_cart_msg{
     margin-top: 10px;
 }
+.active_color{
+    border: 3px solid green;
+}

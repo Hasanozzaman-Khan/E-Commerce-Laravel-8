@@ -25,6 +25,7 @@ function getTopNavCat(){
 }
 
 $html='';
+
 function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
 	global $html;
 	foreach($arr as $id=>$data){
@@ -40,7 +41,9 @@ function buildTreeView($arr,$parent,$level=0,$prelevel= -1){
 			if($level==$prelevel){
 				$html.='</li>';
 			}
+
 			$html.='<li><a href="category/'.$data['category_slug'].'">'.$data['category_name'].'<span class="caret"></span></a>';
+
 			if($level>$prelevel){
 				$prelevel=$level;
 			}
