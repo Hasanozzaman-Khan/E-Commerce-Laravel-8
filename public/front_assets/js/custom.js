@@ -485,3 +485,12 @@ function setColor(color, type){
     jQuery('#categoryFilter').submit();
     // alert(color);
 }
+
+
+
+function funSearch(){
+    var search_str = jQuery('#search_str').val();
+    if (search_str != '' && search_str.length>3) {
+        window.location.href = '/search/'+search_str;
+    }
+}

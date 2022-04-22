@@ -43,6 +43,7 @@ Route::get('category/{slug}', [FrontController::class, 'category']);
 Route::get('product/{slug}', [FrontController::class, 'product']);
 Route::post('add_to_cart', [FrontController::class, 'add_to_cart']);
 Route::get('cart', [FrontController::class, 'cart']);
+Route::get('search/{str}', [FrontController::class, 'search']);
 /* ******** Front Routes End ************/
 
 /* ******** Admin Routes Start ************/
