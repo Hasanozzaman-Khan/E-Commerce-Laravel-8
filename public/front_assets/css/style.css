@@ -2030,7 +2030,7 @@ img {
 }
 #aa-product-category .aa-product-catg-content .aa-product-catg-body .aa-product-catg li {
   margin: 0 0 20px 30px;
-  width: 29.916%;
+  width: 29.0%;
 }
 #aa-product-category .aa-product-catg-content .aa-product-catg-body .aa-product-catg li .aa-product-descrip {
   display: none;
@@ -4200,4 +4200,8 @@ img {
 }
 .active_color{
     border: 3px solid green;
+}
+
+.left_cat_active{
+    color: #ff6666;
 }

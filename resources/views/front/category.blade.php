@@ -96,11 +96,14 @@
           <div class="aa-sidebar-widget">
             <h3>Category</h3>
             <ul class="aa-catg-nav">
-              <li><a href="#">Men</a></li>
-              <li><a href="">Women</a></li>
-              <li><a href="">Kids</a></li>
-              <li><a href="">Electornics</a></li>
-              <li><a href="">Sports</a></li>
+                @foreach($categories_left as $cat_left)
+                    @if($slug == $cat_left->category_slug)
+                        <li><a href="{{url('category/'.$cat_left->category_slug)}}" class="left_cat_active">{{$cat_left->category_name}}</a></li>
+                    @else
+                        <li><a href="{{url('category/'.$cat_left->category_slug)}}">{{$cat_left->category_name}}</a></li>
+                    @endif
+
+                @endforeach
             </ul>
           </div>
           <!-- single sidebar -->

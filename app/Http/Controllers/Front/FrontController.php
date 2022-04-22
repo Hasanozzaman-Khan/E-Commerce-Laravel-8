@@ -183,7 +183,13 @@ class FrontController extends Controller
             DB::table('colors')
             ->where(['status'=>1])
             ->get();
-// prx($result['colors']);
+
+        $result['categories_left'] = DB::table('categories')
+                ->where(['status'=>1])
+                ->get();
+
+// prx($result['categories_left']);
+        $result['slug'] = $slug;
         $result['sort'] = $sort;
         $result['sort_text'] = $sort_text;
         $result['filter_price_start'] = $filter_price_start;
