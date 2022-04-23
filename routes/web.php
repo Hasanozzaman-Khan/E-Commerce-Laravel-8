@@ -44,6 +44,9 @@ Route::get('product/{slug}', [FrontController::class, 'product']);
 Route::post('add_to_cart', [FrontController::class, 'add_to_cart']);
 Route::get('cart', [FrontController::class, 'cart']);
 Route::get('search/{str}', [FrontController::class, 'search']);
+
+Route::get('registration', [FrontController::class, 'registration']);
+Route::post('registration_process', [FrontController::class, 'registration_process'])->name('registration.registration_process');
 /* ******** Front Routes End ************/
 
 /* ******** Admin Routes Start ************/
