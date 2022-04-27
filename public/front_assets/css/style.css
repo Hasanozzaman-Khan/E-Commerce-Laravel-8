@@ -4211,3 +4211,8 @@ img {
     color: red;
     margin-top: -17px;
 }
+
+#login_msg{
+    color: red;
+    clear: both;
+}

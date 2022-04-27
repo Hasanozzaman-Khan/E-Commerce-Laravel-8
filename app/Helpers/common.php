@@ -80,17 +80,13 @@ function getUserTempId(){
 function getAddToCartTotalItem(){
 
     if (session()->exists('FRONT_USER_LOGIN')){
-       $uid = sesson()->get('FRONT_USER_LOGIN');
+       $uid = session()->get('FRONT_USER_LOGIN');
        $user_type = "Reg";
    }else {
        $uid = getUserTempId();
        $user_type = "Not-Reg";
    }
 
-   // $result = DB::table('cart')
-   //         ->where(['user_id'=>$uid])
-   //         ->where(['user_type'=>$user_type])
-   //         ->get();
    $result = DB::table('cart')
            ->leftJoin('products','products.id','=','cart.product_id')
            ->leftJoin('products_attr','products_attr.id','=','cart.product_attr_id')

@@ -412,6 +412,10 @@ class FrontController extends Controller
 // Registration
     public function registration(Request $request)
     {
+        if ($request->session()->has('FRONT_USER_LOGIN')!=null) {
+            return redirect('/');
+        }
+
         $result = [];
         return view('front.registration', $result);
     }
@@ -444,4 +448,38 @@ class FrontController extends Controller
             }
         }
     }
+
+
+    public function login_process(Request $request)
+    {
+        $result = DB::table('customers')
+                ->where(['email'=>$request->str_login_email])
+                ->get();
+
+        if (isset($result[0])) {
+            
+            $db_pwd = Crypt::decrypt($result[0]->password);
+
+            if ($db_pwd == $request->str_login_password) {
+                $request->session()->put('FRONT_USER_LOGIN',true);
+                $request->session()->put('FRONT_USER_ID',$result[0]->id);
+                $request->session()->put('FRONT_USER_NAME',$result[0]->name);
+
+                $status = "success";
+                $msg = "successfully logged in.";
+            }else {
+                $status = "error";
+                $msg = "Please enter valid password.";
+            }
+
+        }else {
+            $status = "error";
+            $msg = "Please enter valid email id.";
+        }
+// prx($result);
+        return response()->json(['status'=>$status, 'msg'=>$msg]);
+
+    }
+
+
 }

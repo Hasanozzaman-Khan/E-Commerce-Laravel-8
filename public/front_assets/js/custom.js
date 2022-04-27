@@ -520,3 +520,23 @@ jQuery('#frmRegistration').submit(function(e){
         }
     });
 });
+
+
+jQuery('#frmLogin').submit(function(e){
+    e.preventDefault();
+    jQuery('#login_msg').html('');
+    jQuery.ajax({
+        url:'/login_process',
+        data:jQuery('#frmLogin').serialize(),
+        type:'POST',
+        success:function(result){
+            if (result.status=='error') {
+                jQuery('#login_msg').html(result.msg);
+            }
+            if (result.status=='success') {
+                window.location.href = '/';
+
+            }
+        }
+    });
+});
