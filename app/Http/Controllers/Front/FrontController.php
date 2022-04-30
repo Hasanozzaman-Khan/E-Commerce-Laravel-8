@@ -103,7 +103,7 @@ class FrontController extends Controller
         // echo '<pre>';
         // print_r($result);
         // die();
-
+// prx($result);
         return view('front.index', $result);
     }
 
@@ -452,15 +452,24 @@ class FrontController extends Controller
 
     public function login_process(Request $request)
     {
+        // prx($_POST);
         $result = DB::table('customers')
                 ->where(['email'=>$request->str_login_email])
                 ->get();
 
         if (isset($result[0])) {
-            
+
             $db_pwd = Crypt::decrypt($result[0]->password);
 
             if ($db_pwd == $request->str_login_password) {
+                if ($request->rememberme === null) {
+                    setcookie('login_email', $request->str_login_email, 30);
+                    setcookie('login_pwd', $request->str_login_password, 30);
+                }else {
+                    setcookie('login_email', $request->str_login_email, time() + 60*60*24*30);
+                    setcookie('login_pwd', $request->str_login_password, time() + 60*60*24*30);
+                }
+                // die();
                 $request->session()->put('FRONT_USER_LOGIN',true);
                 $request->session()->put('FRONT_USER_ID',$result[0]->id);
                 $request->session()->put('FRONT_USER_NAME',$result[0]->name);
