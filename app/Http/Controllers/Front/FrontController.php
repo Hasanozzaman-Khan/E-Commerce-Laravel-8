@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Crypt;
+use Mail;
 
 class FrontController extends Controller
 {
@@ -432,19 +433,30 @@ class FrontController extends Controller
         if (!$valid->passes()) {
             return response()->json(['status'=>'error', 'error'=>$valid->errors()->toArray()]);
         }else {
+            $rand_id = rand(111111111,999999999);
             $arr = [
                 "name"=>$request->name,
                 "email"=>$request->email,
                 "password"=>Crypt::encrypt($request->password),
                 "mobile"=>$request->mobile,
                 "status"=>1,
+                "is_verify"=>0,
+                "rand_id"=>$rand_id,
                 "created_at"=>date('Y-m-d h:i:s'),
                 "updated_at"=>date('Y-m-d h:i:s')
             ];
 
             $query = DB::table('customers')->insert($arr);
             if ($query) {
-                return response()->json(['status'=>'success', 'msg'=>'Registration successfull.']);
+
+                $data=['name'=>$request->name,'rand_id'=>$rand_id];
+                $user['to']=$request->email;
+                Mail::send('front/email_varification',$data,function($messages) use ($user){
+                    $messages->to($user['to']);
+                    $messages->subject('Email Id Verification');
+                });
+
+                return response()->json(['status'=>'success', 'msg'=>'Registration successfull.Please check your email for varification.']);
             }
         }
     }
@@ -460,6 +472,15 @@ class FrontController extends Controller
         if (isset($result[0])) {
 
             $db_pwd = Crypt::decrypt($result[0]->password);
+            $status = $result[0]->status;
+            $is_verify = $result[0]->is_verify;
+
+            if ($is_verify == 0) {
+                return response()->json(['status'=>'error', 'msg'=>'Please verify your account.']);
+            }
+            if ($status == 0) {
+                return response()->json(['status'=>'error', 'msg'=>'Your account has been deactivated.']);
+            }
 
             if ($db_pwd == $request->str_login_password) {
                 if ($request->rememberme === null) {
@@ -490,5 +511,19 @@ class FrontController extends Controller
 
     }
 
+    public function email_varification(Request $request, $id)
+    {
+        $result = DB::table('customers')
+                ->where(['rand_id'=>$id])
+                ->get();
 
+        if (isset($result[0])) {
+            DB::table('customers')
+                    ->where(['id'=>$result[0]->id])
+                    ->update(['is_verify'=>1, 'rand_id'=>'']);
+            return view('front.varification');
+        }else {
+            return redirect('/');
+        }
+    }
 }

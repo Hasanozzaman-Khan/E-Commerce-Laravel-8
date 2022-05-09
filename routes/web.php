@@ -54,6 +54,7 @@ Route::get('logout', function () {
     session()->forget('FRONT_USER_NAME');
     return redirect('/');
 });
+Route::get('verification/{id}', [FrontController::class, 'email_varification']);
 /* ******** Front Routes End ************/
 
 /* ******** Admin Routes Start ************/
