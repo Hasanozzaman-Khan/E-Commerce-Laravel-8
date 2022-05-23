@@ -540,3 +540,45 @@ jQuery('#frmLogin').submit(function(e){
         }
     });
 });
+
+
+function forgot_password(){
+    jQuery('#popup_forgot').show();
+    jQuery('#popup_login').hide();
+}
+function show_login_popup(){
+    jQuery('#popup_forgot').hide();
+    jQuery('#popup_login').show();
+}
+
+
+jQuery('#frmForgot').submit(function(e){
+    e.preventDefault();
+    jQuery('#forgot_msg').html('Please wait....');
+    // jQuery('#forgot_msg').html('');
+    jQuery.ajax({
+        url:'/forgot_password',
+        data:jQuery('#frmForgot').serialize(),
+        type:'POST',
+        success:function(result){
+            jQuery('#forgot_msg').html(result.msg);
+
+        }
+    });
+});
+
+
+jQuery('#frmUpdatePassword').submit(function(e){
+    e.preventDefault();
+    jQuery('#thank_you_msg').html('Please wait....');
+    // jQuery('#thank_you_msg').html('');
+    jQuery.ajax({
+        url:'/forgot_password_change_process',
+        data:jQuery('#frmUpdatePassword').serialize(),
+        type:'POST',
+        success:function(result){
+            jQuery('#thank_you_msg').html(result.msg);
+
+        }
+    });
+});
