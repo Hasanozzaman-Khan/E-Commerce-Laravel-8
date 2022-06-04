@@ -80,7 +80,7 @@ function getUserTempId(){
 function getAddToCartTotalItem(){
 
     if (session()->exists('FRONT_USER_LOGIN')){
-       $uid = session()->get('FRONT_USER_LOGIN');
+       $uid = session()->get('FRONT_USER_ID');
        $user_type = "Reg";
    }else {
        $uid = getUserTempId();

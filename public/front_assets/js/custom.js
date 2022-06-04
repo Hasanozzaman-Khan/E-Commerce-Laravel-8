@@ -390,6 +390,7 @@ function home_add_to_cart(id,size_str_id,color_str_id){
 }
 
 function add_to_cart(id,size_str_id,color_str_id){
+
     jQuery('#add_to_cart_msg').html('');
     var size_id = jQuery('#size_id').val();
     var color_id = jQuery('#color_id').val();

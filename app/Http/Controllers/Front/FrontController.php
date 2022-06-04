@@ -255,8 +255,8 @@ class FrontController extends Controller
     public function add_to_cart(Request $request)
     {
 
-         if ($request->session()->exists('FRONT_USER_LOGIN')){
-            $uid = $request->sesson()->get('FRONT_USER_LOGIN');
+         if ($request->session()->has('FRONT_USER_LOGIN')){
+            $uid = $request->sesson()->get('FRONT_USER_ID');
             $user_type = "Reg";
         }else {
             // $uid = getUserTempId();
@@ -276,7 +276,7 @@ class FrontController extends Controller
         $pqty = $request->post('pqty');
         $product_id = $request->post('product_id');
         // echo '<pre>';
-        // print_r($size_id);
+        // print_r($uid);
         // die();
         $result =DB::table('products_attr')
                 ->SELECT('products_attr.id')
@@ -342,8 +342,8 @@ class FrontController extends Controller
 
     public function cart(Request $request)
     {
-        if ($request->session()->exists('FRONT_USER_LOGIN')){
-           $uid = $request->sesson()->get('FRONT_USER_LOGIN');
+        if ($request->session()->has('FRONT_USER_LOGIN')){
+           $uid = $request->session()->get('FRONT_USER_ID');
            $user_type = "Reg";
        }else {
            $uid = getUserTempId();
@@ -498,6 +498,12 @@ class FrontController extends Controller
 
                 $status = "success";
                 $msg = "successfully logged in.";
+
+                $getUserTempId = getUserTempId();
+                DB::table('cart')
+                        ->where(['user_id'=>$getUserTempId, 'user_type'=>'Not-Reg'])
+                        ->update(['user_id'=>$result[0]->id, 'user_type'=>'Reg']);
+
             }else {
                 $status = "error";
                 $msg = "Please enter valid password.";
