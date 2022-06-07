@@ -63,7 +63,8 @@
                               <!-- <input class="aa-coupon-code" type="text" placeholder="Coupon">
                               <input class="aa-cart-view-btn" type="submit" value="Apply Coupon"> -->
                             </div>
-                            <input class="aa-cart-view-btn" type="button" value="Check Out">
+
+                            <a class="aa-cartbox-checkout aa-primary-btn" href="{{url('/checkout')}}"><input class="aa-cart-view-btn" type="button" value="Check Out"></a>
                           </td>
                         </tr>
                         </tbody>

@@ -256,7 +256,7 @@ class FrontController extends Controller
     {
 
          if ($request->session()->has('FRONT_USER_LOGIN')){
-            $uid = $request->sesson()->get('FRONT_USER_ID');
+            $uid = $request->session()->get('FRONT_USER_ID');
             $user_type = "Reg";
         }else {
             // $uid = getUserTempId();
@@ -270,7 +270,9 @@ class FrontController extends Controller
             }
             $user_type = "Not-Reg";
         }
-
+        // echo '<pre>';
+        // print_r($uid);
+        // die();
         $size_id = $request->post('size_id');
         $color_id = $request->post('color_id');
         $pqty = $request->post('pqty');
@@ -347,14 +349,6 @@ class FrontController extends Controller
            $user_type = "Reg";
        }else {
            $uid = getUserTempId();
-           // if (session()->has('USER_TEMP_ID')) {
-           //
-           //     $uid = $request->session()->get('USER_TEMP_ID');
-           // }else {
-           //     $rand = rand(111111111,999999999);
-           //     session()->put('USER_TEMP_ID',$rand);
-           //     $uid = $rand;
-           // }
            $user_type = "Not-Reg";
        }
 
@@ -601,6 +595,43 @@ class FrontController extends Controller
         return response()->json(['status'=>'success', 'msg'=>'Password changed.']);
     }
 
+
+// Checkout
+    public function checkout(Request $request)
+    {
+        $result['cart_data'] = getAddToCartTotalItem();
+        // prx($getAddToCartTotalItem);
+        if (isset($result['cart_data'][0])) {
+
+            if ($request->session()->has('FRONT_USER_LOGIN')){
+               $uid = $request->session()->get('FRONT_USER_ID');
+
+               $customer_info = DB::table('customers')
+                       ->where(['id'=>$uid])
+                       ->get();
+                $result['customers']['name'] = $customer_info[0]->name;
+                $result['customers']['email'] = $customer_info[0]->email;
+                $result['customers']['mobile'] = $customer_info[0]->mobile;
+                $result['customers']['address'] = $customer_info[0]->address;
+                $result['customers']['city'] = $customer_info[0]->city;
+                $result['customers']['state'] = $customer_info[0]->state;
+                $result['customers']['zip'] = $customer_info[0]->zip;
+                // prx($customer_info);
+           }else {
+               $result['customers']['name']    = '';
+               $result['customers']['email']   = '';
+               $result['customers']['mobile']  = '';
+               $result['customers']['address'] = '';
+               $result['customers']['city']    = '';
+               $result['customers']['state']   = '';
+               $result['customers']['zip']     = '';
+           }
+
+            return view('front.checkout', $result);
+        }else {
+            return redirect('/');
+        }
+    }
 
 
 

@@ -4220,3 +4220,17 @@ img {
 #forgot_msg{
     color: red;
 }
+
+.coupon_code input{
+    border: 1px solid #ccc;
+    height: 40px;
+    padding: 10px;
+    width: 100%;
+}
+
+.cart_color{
+    font-size: 10px;
+    color: green;
+    font-weight: bold;
+
+}

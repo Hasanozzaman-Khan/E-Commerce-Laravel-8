@@ -433,7 +433,7 @@ function add_to_cart(id,size_str_id,color_str_id){
 
                 }
                 html += '<li><span class="aa-cartbox-total-title">Total</span><span class="aa-cartbox-total-price">TK. '+totalPrice+'</span></li>';
-                html += '</ul><a class="aa-cartbox-checkout aa-primary-btn" href="checkout">Checkout</a>';
+                html += '</ul><a class="aa-cartbox-checkout aa-primary-btn" href="cart">Cart</a>';
                 jQuery('.aa-cartbox-summary').html(html);
             }
         });
@@ -535,7 +535,7 @@ jQuery('#frmLogin').submit(function(e){
                 jQuery('#login_msg').html(result.msg);
             }
             if (result.status=='success') {
-                window.location.href = '/';
+                window.location.href = window.location.href;
 
             }
         }

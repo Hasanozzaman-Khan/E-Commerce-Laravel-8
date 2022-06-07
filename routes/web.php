@@ -45,6 +45,8 @@ Route::post('add_to_cart', [FrontController::class, 'add_to_cart']);
 Route::get('cart', [FrontController::class, 'cart']);
 Route::get('search/{str}', [FrontController::class, 'search']);
 
+Route::get('checkout', [FrontController::class, 'checkout']);
+
 Route::get('registration', [FrontController::class, 'registration']);
 Route::post('registration_process', [FrontController::class, 'registration_process'])->name('registration.registration_process');
 Route::post('login_process', [FrontController::class, 'login_process'])->name('login.login_process');
