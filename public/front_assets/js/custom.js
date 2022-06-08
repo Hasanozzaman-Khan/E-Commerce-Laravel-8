@@ -583,3 +583,60 @@ jQuery('#frmUpdatePassword').submit(function(e){
         }
     });
 });
+
+
+function applyCouponCode(){
+    jQuery('#coupon_code_msg').html('');
+    var coupon_code = jQuery('#coupon_code').val();
+
+    if (coupon_code !='') {
+        jQuery.ajax({
+            url:'/apply_coupon_code',
+            data:'coupon_code='+coupon_code+'&_token='+jQuery("[name='_token']").val(),
+            type:'POST',
+            success:function(result){
+                // jQuery('#thank_you_msg').html(result.msg);
+                // result = jQuery().parseJSON(result);
+                if (result.status == 'success') {
+                    jQuery('.show_coupon_box').removeClass('hide');
+                    jQuery('#coupon_code_str').html(coupon_code);
+                    jQuery('#total_price').html('TK ' + result.totalPrice);
+                    jQuery('.apply_coupon_code_box').hide();
+
+                }else {
+
+                }
+                jQuery('#coupon_code_msg').html(result.msg);
+            }
+        });
+    }else {
+        jQuery('#coupon_code_msg').html('Please enter coupon code.');
+    }
+}
+
+function remove_coupon_code(){
+    var coupon_code = jQuery('#coupon_code').val();
+    jQuery('#coupon_code').val('');
+    if (coupon_code !='') {
+        jQuery.ajax({
+            url:'/remove_coupon_code',
+            data:'coupon_code='+coupon_code+'&_token='+jQuery("[name='_token']").val(),
+            type:'POST',
+            success:function(result){
+                // jQuery('#thank_you_msg').html(result.msg);
+                // result = jQuery().parseJSON(result);
+                if (result.status == 'success') {
+                    jQuery('.show_coupon_box').addClass('hide');
+                    jQuery('#coupon_code_str').html('');
+                    jQuery('#total_price').html('TK ' + result.totalPrice);
+                    jQuery('.apply_coupon_code_box').show();
+
+                }else {
+
+                }
+                jQuery('#coupon_code_msg').html(result.msg);
+            }
+        });
+    }
+
+}

@@ -127,9 +127,10 @@
                           <th>Coupon Code <a href="javascript:void(0)" onclick="remove_coupon_code()" class="remove_coupon_code_link">Remove</a></th>
                           <td id="coupon_code_str"></td>
                         </tr>
+
                          <tr>
                           <th>Total</th>
-                          <td id="total_price">INR {{$totalPrice}}</td>
+                          <td id="total_price">TK {{$totalPrice}}</td>
                         </tr>
                       </tfoot>
                     </table>
