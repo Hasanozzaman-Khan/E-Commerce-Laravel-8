@@ -48,6 +48,8 @@ Route::get('search/{str}', [FrontController::class, 'search']);
 Route::get('checkout', [FrontController::class, 'checkout']);
 Route::post('apply_coupon_code', [FrontController::class, 'apply_coupon_code']);
 Route::post('remove_coupon_code', [FrontController::class, 'remove_coupon_code']);
+Route::post('place_order', [FrontController::class, 'place_order']);
+Route::get('order_placed', [FrontController::class, 'order_placed']);
 
 Route::get('registration', [FrontController::class, 'registration']);
 Route::post('registration_process', [FrontController::class, 'registration_process'])->name('registration.registration_process');

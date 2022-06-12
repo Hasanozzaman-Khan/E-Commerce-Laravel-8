@@ -587,6 +587,7 @@ jQuery('#frmUpdatePassword').submit(function(e){
 
 function applyCouponCode(){
     jQuery('#coupon_code_msg').html('');
+    jQuery('#order_place_msg').html('');
     var coupon_code = jQuery('#coupon_code').val();
 
     if (coupon_code !='') {
@@ -640,3 +641,26 @@ function remove_coupon_code(){
     }
 
 }
+
+
+
+
+jQuery('#frmPlaceOrder').submit(function(e){
+    e.preventDefault();
+    jQuery('#order_place_msg').html('Please wait....');
+
+    jQuery.ajax({
+        url:'/place_order',
+        data:jQuery('#frmPlaceOrder').serialize(),
+        type:'POST',
+        success:function(result){
+            //
+            if (result.status == 'success') {
+                window.location.href = "/order_placed";
+
+            }
+            jQuery('#order_place_msg').html(result.msg);
+
+        }
+    });
+});

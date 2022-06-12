@@ -4243,3 +4243,8 @@ img {
     color: red;
     font-size: 10px;
 }
+
+#order_place_msg{
+    color: red;
+    font-size: 16px;
+}
