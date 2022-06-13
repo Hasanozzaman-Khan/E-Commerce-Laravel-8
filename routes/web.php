@@ -50,6 +50,8 @@ Route::post('apply_coupon_code', [FrontController::class, 'apply_coupon_code']);
 Route::post('remove_coupon_code', [FrontController::class, 'remove_coupon_code']);
 Route::post('place_order', [FrontController::class, 'place_order']);
 Route::get('order_placed', [FrontController::class, 'order_placed']);
+Route::get('order_fail', [FrontController::class, 'order_fail']);
+Route::get('instamojo_payment_redirect', [FrontController::class, 'instamojo_payment_redirect']);
 
 Route::get('registration', [FrontController::class, 'registration']);
 Route::post('registration_process', [FrontController::class, 'registration_process'])->name('registration.registration_process');

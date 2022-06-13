@@ -656,7 +656,12 @@ jQuery('#frmPlaceOrder').submit(function(e){
         success:function(result){
             //
             if (result.status == 'success') {
-                window.location.href = "/order_placed";
+                if (result.payment_url != '') {
+                    window.location.href = result.payment_url;
+                }else {
+                    window.location.href = "/order_placed";
+                }
+
 
             }
             jQuery('#order_place_msg').html(result.msg);

@@ -665,6 +665,7 @@ class FrontController extends Controller
 
     public function place_order(Request $request)
     {
+        $payment_url = '';
         if ($request->session()->has('FRONT_USER_LOGIN')){
             $coupon_value = 0;
             if ($request->coupon_code != '') {
@@ -717,9 +718,56 @@ class FrontController extends Controller
                    $productDetailArr['price']=$list->price;
                    $productDetailArr['qty']=$list->qty;
 
-                   // prx($productDetailArr);
                    DB::table('orders_details')->insert($productDetailArr);
                }
+
+               if ($request->payment_type == 'Gateway') {
+                   $final_amt=$totalPrice-$coupon_value;
+                   $ch = curl_init();
+                   curl_setopt($ch, CURLOPT_URL, 'https://test.instamojo.com/api/1.1/payment-requests/');
+                   curl_setopt($ch, CURLOPT_HEADER, FALSE);
+                   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+                   curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                   curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+                   curl_setopt($ch, CURLOPT_HTTPHEADER,
+                       array("X-Api-Key:KEY",
+                           "X-Auth-Token:TOKEN"));
+                   $payload = Array(
+                       'purpose' => 'Buy Product',
+                       'amount' => $final_amt,
+                       'phone' => $request->mobile,
+                       'buyer_name' =>$request->name,
+                       'redirect_url' => 'http://127.0.0.1:8000/instamojo_payment_redirect',
+                       'send_email' => true,
+                       'send_sms' => true,
+                       'email' => $request->email,
+                       'allow_repeated_payments' => false
+                   );
+
+                   curl_setopt($ch, CURLOPT_POST, true);
+                   curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($payload));
+                   $response = curl_exec($ch);
+
+                   curl_close($ch);
+                   $response=json_decode($response);
+
+                   if(isset($response->payment_request->id)){
+                       $txn_id=$response->payment_request->id;
+
+                       DB::table('orders')
+                       ->where(['id'=>$order_id])
+                       ->update(['txn_id'=>$txn_id]);
+                       $payment_url=$response->payment_request->longurl;
+
+                   }else{
+                       $msg="";
+                       foreach($response->message as $key=>$val){
+                           $msg.=strtoupper($key).": ".$val[0].'<br/>';
+                       }
+                       return response()->json(['status'=>'error','msg'=>$msg,'payment_url'=>'']);
+                   }
+               }
+
 
                DB::table('cart')->where(['user_id'=>$uid,'user_type'=>'Reg'])->delete();
                $request->session()->put('ORDER_ID',$order_id);
@@ -735,7 +783,7 @@ class FrontController extends Controller
            $status = 'false';
            $msg = 'Please login to place order.';
        }
-       return response()->json(['status'=>$status, 'msg'=>$msg]);
+       return response()->json(['status'=>$status, 'msg'=>$msg, 'payment_url'=>$payment_url]);
     }
 
 
@@ -748,6 +796,38 @@ class FrontController extends Controller
             return view('front.order_placed');
         }else {
             return redirect('/');
+        }
+    }
+
+
+    public function order_fail(Request $request)
+    {
+
+        if ($request->session()->has('ORDER_ID')){
+            return view('front.order_fail');
+        }else {
+            return redirect('/');
+        }
+    }
+
+
+    public function instamojo_payment_redirect(Request $request)
+    {
+        if($request->get('payment_id')!==null && $request->get('payment_status')!==null && $request->get('payment_request_id')!==null){
+            if($request->get('payment_status')=='Credit'){
+                $status='Success';
+                $redirect_url='/order_placed';
+            }else{
+                $status='Fail';
+                $redirect_url='/order_fail';
+            }
+            $request->session()->put('ORDER_STATUS',$status);
+            DB::table('orders')
+                ->where(['txn_id'=>$request->get('payment_request_id')])
+                ->update(['payment_status'=>$status,'payment_id'=>$request->get('payment_id')]);
+                return redirect($redirect_url);
+        }else{
+            die('Something went wrong');
         }
     }
 
