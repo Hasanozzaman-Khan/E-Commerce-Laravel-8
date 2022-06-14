@@ -663,10 +663,61 @@ class FrontController extends Controller
 
 
 
+
+
     public function place_order(Request $request)
     {
         $payment_url = '';
         if ($request->session()->has('FRONT_USER_LOGIN')){
+
+        }else {
+            $valid = Validator::make($request->all(),[
+                "email"=>'required|email|unique:customers,email'
+            ]);
+
+            if (!$valid->passes()) {
+                return response()->json(['status'=>'error', 'msg'=>"The email has already been taken."]);
+            }else {
+                $rand_id = rand(111111111,999999999);
+                $arr = [
+                    "name"=>$request->name,
+                    "email"=>$request->email,
+                    "password"=>Crypt::encrypt($rand_id),
+                    "mobile"=>$request->mobile,
+                    "address"=>$request->address,
+                    "city"=>$request->city,
+                    "state"=>$request->state,
+                    "zip"=>$request->zip,
+                    "status"=>1,
+                    "is_verify"=>1,
+                    "rand_id"=>$rand_id,
+                    "is_forgot_password"=>0,
+                    "created_at"=>date('Y-m-d h:i:s'),
+                    "updated_at"=>date('Y-m-d h:i:s')
+                ];
+
+                $user_id = DB::table('customers')->insertGetId($arr);
+
+                $data=['name'=>$request->name,'password'=>$rand_id];
+                $user['to']=$request->email;
+                Mail::send('front/password_send',$data,function($messages) use ($user){
+                    $messages->to($user['to']);
+                    $messages->subject('Email and Password');
+                });
+
+                $request->session()->put('FRONT_USER_LOGIN',true);
+                $request->session()->put('FRONT_USER_ID',$user_id);
+                $request->session()->put('FRONT_USER_NAME',$request->name);
+
+                $getUserTempId = getUserTempId();
+                DB::table('cart')
+                    ->where(['user_id'=>$getUserTempId, 'user_type'=>'Not-Reg'])
+                    ->update(['user_id'=>$user_id, 'user_type'=>'Reg']);
+
+            }
+        }
+
+
             $coupon_value = 0;
             if ($request->coupon_code != '') {
                 $arr = apply_coupon_code($request->coupon_code);
@@ -779,10 +830,7 @@ class FrontController extends Controller
                $msg = 'Please try after sometime.';
            }
 
-       }else {
-           $status = 'false';
-           $msg = 'Please login to place order.';
-       }
+
        return response()->json(['status'=>$status, 'msg'=>$msg, 'payment_url'=>$payment_url]);
     }
 
