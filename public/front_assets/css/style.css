@@ -4248,3 +4248,14 @@ img {
     color: red;
     font-size: 16px;
 }
+
+.order_detail{
+    margin-bottom: 10px;
+    line-height: 25px;
+    /* font-weight: bold; */
+}
+
+.coupon_apply_txt{
+    font-size: 12px;
+    color: red;
+}

@@ -668,6 +668,7 @@ class FrontController extends Controller
     public function place_order(Request $request)
     {
         $payment_url = '';
+        $rand_id = rand(111111111,999999999);
         if ($request->session()->has('FRONT_USER_LOGIN')){
 
         }else {
@@ -678,7 +679,7 @@ class FrontController extends Controller
             if (!$valid->passes()) {
                 return response()->json(['status'=>'error', 'msg'=>"The email has already been taken."]);
             }else {
-                $rand_id = rand(111111111,999999999);
+
                 $arr = [
                     "name"=>$request->name,
                     "email"=>$request->email,
@@ -698,16 +699,19 @@ class FrontController extends Controller
 
                 $user_id = DB::table('customers')->insertGetId($arr);
 
+                $request->session()->put('FRONT_USER_LOGIN',true);
+                $request->session()->put('FRONT_USER_ID',$user_id);
+                $request->session()->put('FRONT_USER_NAME',$request->name);
+
                 $data=['name'=>$request->name,'password'=>$rand_id];
                 $user['to']=$request->email;
-                Mail::send('front/password_send',$data,function($messages) use ($user){
+                Mail::send('front/password_send',$data,function($messages)
+                use ($user){
                     $messages->to($user['to']);
                     $messages->subject('Email and Password');
                 });
 
-                $request->session()->put('FRONT_USER_LOGIN',true);
-                $request->session()->put('FRONT_USER_ID',$user_id);
-                $request->session()->put('FRONT_USER_NAME',$request->name);
+
 
                 $getUserTempId = getUserTempId();
                 DB::table('cart')
@@ -878,6 +882,38 @@ class FrontController extends Controller
             die('Something went wrong');
         }
     }
+
+
+
+    public function order(Request $request)
+    {
+        $result['orders'] =DB::table('orders')
+            ->select('orders.id', 'orders_status.orders_status', 'orders.payment_type', 'orders.payment_status', 'orders.payment_id', 'orders.total_amt', 'orders.added_on')
+            ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
+            ->where(['orders.customers_id'=>$request->session()->get('FRONT_USER_ID')])
+            ->get();
+
+// prx($result);
+        return view('front.order', $result);
+    }
+
+
+    public function order_detail(Request $request, $id)
+    {
+        $result['orders_detail'] = DB::table('orders_details')
+            ->select('orders.*', 'orders_status.orders_status', 'orders_details.price', 'orders_details.qty', 'products.name as pname', 'products_attr.attr_image', 'sizes.size', 'colors.color')
+            ->leftJoin('orders','orders.id','=','orders_details.orders_id')
+            ->leftJoin('products_attr','products_attr.id','=','orders_details.products_attr_id')
+            ->leftJoin('products','products.id','=','products_attr.products_id')
+            ->leftJoin('sizes','sizes.id','=','products_attr.size_id')
+            ->leftJoin('colors','colors.id','=','products_attr.color_id')
+            ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
+            ->where(['orders.id'=>$id])
+            ->get();
+// prx($result['orders_detail']);
+        return view('front.order_detail', $result);
+    }
+
 
 
 
