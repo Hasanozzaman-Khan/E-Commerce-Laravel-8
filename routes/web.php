@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\TaxController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\HomeBannerController;
+use App\Http\Controllers\Admin\OrderController;
 /* ******** Admin Controller End ************/
 
 /* ******** Front Controller Start ************/
@@ -156,6 +157,11 @@ Route::group(['middleware'=>'admin_auth'], function(){
 // Extra Product Routes
     Route::get('admin/product/product_attr_delete/{paid}/{pid}', [ProductController::class, 'product_attr_delete']);
     Route::get('admin/product/product_images_delete/{piid}/{pid}', [ProductController::class, 'product_images_delete']);
+
+
+// Order Routes
+    Route::get('admin/order', [OrderController::class, 'index']);
+    Route::get('admin/order_detail/{id}', [OrderController::class, 'order_detail']);
 
 
 // Logout Routes

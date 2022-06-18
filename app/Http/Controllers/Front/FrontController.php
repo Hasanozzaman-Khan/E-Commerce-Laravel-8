@@ -909,9 +909,15 @@ class FrontController extends Controller
             ->leftJoin('colors','colors.id','=','products_attr.color_id')
             ->leftJoin('orders_status','orders_status.id','=','orders.order_status')
             ->where(['orders.id'=>$id])
+            ->where(['orders.customers_id'=>$request->session()->get('FRONT_USER_ID')])
             ->get();
 // prx($result['orders_detail']);
-        return view('front.order_detail', $result);
+        if (!isset($result['orders_detail'][0])) {
+            return redirect('/');
+        }else {
+            return view('front.order_detail', $result);
+        }
+
     }
 
 

@@ -14649,3 +14649,8 @@ section {
 .vue-lists ul, .vue-lists ol {
     padding-left: 30px;
 }
+
+.order_detail img{
+    width: 80px;
+    height: 80px;
+}
