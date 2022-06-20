@@ -162,6 +162,9 @@ Route::group(['middleware'=>'admin_auth'], function(){
 // Order Routes
     Route::get('admin/order', [OrderController::class, 'index']);
     Route::get('admin/order_detail/{id}', [OrderController::class, 'order_detail']);
+    Route::get('admin/update_payment_status/{status}/{id}', [OrderController::class, 'update_payment_status']);
+    Route::get('admin/update_order_status/{status}/{id}', [OrderController::class, 'update_order_status']);
+    Route::post('admin/update_track_details/{id}', [OrderController::class, 'update_track_details']);
 
 
 // Logout Routes

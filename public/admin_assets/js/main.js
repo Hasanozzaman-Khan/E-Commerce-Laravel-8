@@ -1258,7 +1258,7 @@
     var navbars = ['header', 'aside'];
     var hrefSelector = 'a:not([target="_blank"]):not([href^="#"]):not([class^="chosen-single"])';
     var linkElement = navbars.map(element => element + ' ' + hrefSelector).join(', ');
-    
+
 
 
   })(jQuery);
@@ -1651,3 +1651,21 @@
   }
 
 })(jQuery);
+
+
+function update_payment_status(id){
+    var check = confirm('Are you sure?');
+    var payment_status = jQuery('#payment_status').val();
+    if (check == true) {
+        window.location.href = '/admin/update_payment_status/'+payment_status+'/'+id;
+    }
+}
+
+
+function update_order_status(id){
+    var check = confirm('Are you sure?');
+    var order_status = jQuery('#order_status').val();
+    if (check == true) {
+        window.location.href = '/admin/update_order_status/'+order_status+'/'+id;
+    }
+}

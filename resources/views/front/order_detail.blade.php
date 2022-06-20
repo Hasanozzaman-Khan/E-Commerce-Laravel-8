@@ -41,6 +41,10 @@
                 Payment Id : {{$orders_detail[0]->payment_id}}
             @endif
 
+            @if ($orders_detail[0]->track_details !='')
+                Track Details : {{$orders_detail[0]->track_details}}
+            @endif
+
          </div>
      </div>
      <div class="col-md-12">

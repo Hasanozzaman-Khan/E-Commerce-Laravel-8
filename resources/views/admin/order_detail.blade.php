@@ -12,7 +12,48 @@
   <h3 class="mb-3">Order - {{$orders_detail[0]->id}}</h3>
 
 
-  <div class="row">
+  <div class="order_operation">
+      Update Order Status
+      <select class="form-control m-b-10" id="order_status" onchange="update_order_status({{$orders_detail[0]->id}})">
+          <?php
+            foreach ($orders_status as $list) {
+                if ($orders_detail[0]->order_status == $list->id) {
+                    echo "<option value='$list->id' selected>$list->orders_status</option>";
+                }else {
+                    echo "<option value='$list->id'>$list->orders_status</option>";
+                }
+            }
+           ?>
+      </select>
+
+
+      Update Payment Status
+      <select class="form-control m-b-10" id="payment_status" onchange="update_payment_status({{$orders_detail[0]->id}})">
+          <?php
+            foreach ($payment_status as $list) {
+                if ($orders_detail[0]->payment_status == $list) {
+                    echo "<option value='$list' selected>$list</option>";
+                }else {
+                    echo "<option value='$list'>$list</option>";
+                }
+
+            }
+           ?>
+      </select>
+
+      Track Details
+      <form  action="{{url('admin/update_track_details')}}/{{$orders_detail[0]->id}}" method="post">
+          <textarea class="form-control" name="track_details" rows="3"></textarea>
+          <button class="btn btn-success mt-2" type="submit">Update</button>
+          <!-- <input class="btn btn-success mt-2" type="submit" name="Update" value="Submit"> -->
+          <!-- <input type="hidden" name="id" value="{{$orders_detail[0]->id}}"> -->
+          @csrf
+      </form>
+
+  </div>
+
+
+  <div class="row whitebg">
       <!-- START DATA TABLE-->
       <div class="col-md-6 mb-2">
           <div class="order_detail">
@@ -37,13 +78,16 @@
                  Payment Id : {{$orders_detail[0]->payment_id}}
              @endif
 
+             @if ($orders_detail[0]->track_details !='')
+                 Track Details : {{$orders_detail[0]->track_details}}
+             @endif
+
           </div>
       </div>
       <div class="col-md-12">
         <div class="cart-view-area">
 
           <div class="cart-view-table">
-            <form action="">
 
                   <div class="table-responsive">
                      <table class="table order_detail">
@@ -103,11 +147,10 @@
                      </table>
                    </div>
 
-            </form>
-
           </div>
         </div>
       </div>
 <!-- END DATA TABLE-->
   </div>
+
 @endsection

@@ -14654,3 +14654,14 @@ section {
     width: 70px;
     height: 70px;
 }
+
+.whitebg{
+    background-color: white;
+    padding: 30px;
+}
+
+.order_operation{
+    margin-bottom: 15px;
+    background-color: white;
+    padding: 30px;
+}
