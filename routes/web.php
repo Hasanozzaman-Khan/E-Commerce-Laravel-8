@@ -54,9 +54,14 @@ Route::get('order_placed', [FrontController::class, 'order_placed']);
 Route::get('order_fail', [FrontController::class, 'order_fail']);
 Route::get('instamojo_payment_redirect', [FrontController::class, 'instamojo_payment_redirect']);
 
+Route::post('product_review_process', [FrontController::class, 'product_review_process']);
+
 Route::group(['middleware'=>'user_auth'], function(){
     Route::get('order', [FrontController::class, 'order']);
     Route::get('order_detail/{id}', [FrontController::class, 'order_detail']);
+
+
+
 });
 
 Route::get('registration', [FrontController::class, 'registration']);

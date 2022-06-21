@@ -4259,3 +4259,9 @@ img {
     font-size: 12px;
     color: red;
 }
+
+.review_msg{
+    color: red;
+    font-size: 20px;
+    margin-top: 10px;
+}

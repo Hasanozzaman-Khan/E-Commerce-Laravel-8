@@ -669,3 +669,30 @@ jQuery('#frmPlaceOrder').submit(function(e){
         }
     });
 });
+
+
+
+
+jQuery('#frmProductReview').submit(function(e){
+    e.preventDefault();
+    
+    jQuery.ajax({
+        url:'/product_review_process',
+        data:jQuery('#frmProductReview').serialize(),
+        type:'POST',
+        success:function(result){
+            if (result.status == 'success') {
+                jQuery('.review_msg').html(result.msg);
+                jQuery('#frmProductReview')[0].reset();
+
+                setInterval(function(){
+                    window.location.href = window.location.href;
+                }, 2500);
+
+            }else if (result.status == 'error') {
+                jQuery('.review_msg').html(result.msg);
+            }
+
+        }
+    });
+});

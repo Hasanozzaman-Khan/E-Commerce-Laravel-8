@@ -4,23 +4,6 @@
 
 @section('container')
 
-<!-- catg header banner section -->
-<!-- <section id="aa-catg-head-banner">
-<img src="img/fashion/fashion-header-bg-8.jpg" alt="fashion img">
- <div class="aa-catg-head-banner-area">
-   <div class="container">
-    <div class="aa-catg-head-banner-content">
-      <h2>T-Shirt</h2>
-      <ol class="breadcrumb">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">Product</a></li>
-        <li class="active">T-shirt</li>
-      </ol>
-    </div>
-   </div>
- </div>
-</section> -->
-<!-- / catg header banner section -->
 
 <!-- product category -->
 <section id="aa-product-details">
@@ -149,8 +132,11 @@
 
               <div class="tab-pane fade " id="review">
                <div class="aa-product-review-area">
-                 <h4>2 Reviews for T-Shirt</h4>
+                   @if(isset($product_review[0]))
+                 <h4>@php echo count($product_review); @endphp  Review(s) for {{$product[0]->name}}</h4>
                  <ul class="aa-review-nav">
+
+                        @foreach($product_review as $list)
                    <li>
                       <div class="media">
                         <div class="media-left">
@@ -159,46 +145,58 @@
                           </a>
                         </div>
                         <div class="media-body">
-                          <h4 class="media-heading"><strong>Marla Jobs</strong> - <span>March 26, 2016</span></h4>
+                          <h4 class="media-heading"><strong>{{$list->name}}</strong> - <span>{{getCustomDate($list->added_on)}}</span></h4>
                           <div class="aa-product-rating">
+
+                              <span class="rating_text">{{$list->rating}}</span>
+                            <!-- <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star-o"></span>
+                            <span class="fa fa-star-o"></span> -->
                           </div>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                          <p>{{$list->review}}</p>
                         </div>
                       </div>
                     </li>
+                        @endforeach
 
                  </ul>
-                 <h4>Add a review</h4>
-                 <div class="aa-your-rating">
-                   <p>Your Rating</p>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                   <a href="#"><span class="fa fa-star-o"></span></a>
-                 </div>
+                 @else
+                     <h2>No review found.</h2>
+                 @endif
                  <!-- review form -->
-                 <form action="" class="aa-review-form">
-                    <div class="form-group">
-                      <label for="message">Your Review</label>
-                      <textarea class="form-control" rows="3" id="message"></textarea>
-                    </div>
-                    <div class="form-group">
-                      <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Name">
-                    </div>
-                    <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
+                 <form id="frmProductReview" class="aa-review-form">
+                     <h4>Add a review</h4>
+                     <div class="aa-your-rating">
+                        <p>Your Rating</p>
+                        <select class="form-control" name="rating" required>
+                            <option value="">Select Rating</option>
+                            <option value="Worst">Worst</option>
+                            <option value="Bad">Bad</option>
+                            <option value="Good">Good</option>
+                            <option value="Very Good">Very Good</option>
+                            <option value="Fantastic">Fantastic</option>
+                        </select>
+                        <!-- <a href="#"><span class="fa fa-star-o"></span></a>
+                        <a href="#"><span class="fa fa-star-o"></span></a>
+                        <a href="#"><span class="fa fa-star-o"></span></a>
+                        <a href="#"><span class="fa fa-star-o"></span></a>
+                        <a href="#"><span class="fa fa-star-o"></span></a> -->
+                     </div>
+
+                     <div class="form-group">
+                         <label for="message">Your Review</label>
+                         <textarea class="form-control" rows="3" name="review" required></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-default aa-review-submit">Submit</button>
+                    <input type="hidden" name="product_id" value="{{$product[0]->id}}">
+                    @csrf
                  </form>
+
+                 <div class="review_msg"></div>
+
                </div>
               </div>
             </div>

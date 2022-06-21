@@ -163,4 +163,12 @@ function apply_coupon_code($coupon_code)
     return json_encode(['status'=>$status, 'msg'=>$msg, 'totalPrice'=>$totalPrice, 'coupon_code_value'=>$coupon_code_value]);
 
 }
+
+
+function getCustomDate($date){
+    if ($date != '') {
+        $date = strtotime($date);
+        return date('d-M Y', $date);
+    }
+}
 ?>

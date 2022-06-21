@@ -247,7 +247,17 @@ class FrontController extends Controller
                 ->leftJoin('colors','colors.id','=','products_attr.color_id')
                 ->get();
         }
-        // prx($result);
+
+
+        $result['product_review'] =
+            DB::table('product_review')
+            ->leftJoin('customers','customers.id','=','product_review.customers_id')
+            ->where(['product_review.product_id'=>$result['product'][0]->id, 'product_review.status'=>1])
+            ->orderBy('product_review.added_on','DESC')
+            ->select('product_review.rating', 'product_review.review', 'product_review.added_on', 'customers.name')
+            ->get();
+
+        // prx($result['product_review']);
         return view('front.product', $result);
     }
 
@@ -922,6 +932,42 @@ class FrontController extends Controller
 
 
 
+    public function product_review_process(Request $request)
+    {
+        if ($request->session()->has('FRONT_USER_LOGIN')){
+           $uid = $request->session()->get('FRONT_USER_ID');
+
+           $arr = [
+               "customers_id"=>$uid,
+               "product_id"=>$request->product_id,
+               "rating"=>$request->rating,
+               "review"=>$request->review,
+               "status"=>0,
+               "added_on"=>date('Y-m-d h:i:s')
+           ];
+
+           $query = DB::table('product_review')->insert($arr);
+
+           $status = "success";
+           $msg = "Thank you for your review";
+       }else {
+           $status = "error";
+           $msg = "Please login to submit your review";
+       }
+        // $result = DB::table('coupons')
+        //         ->where(['code'=>$request->coupon_code])
+        //         ->get();
+        //
+        // $getAddToCartTotalItem = getAddToCartTotalItem();
+        // $totalPrice = 0;
+        // foreach ($getAddToCartTotalItem as $list) {
+        //     $totalPrice = $totalPrice + ($list->qty * $list->price);
+        // }
+        //
+        //
+        return response()->json(['status'=>$status, 'msg'=>$msg]);
+
+    }
 
 
 }
