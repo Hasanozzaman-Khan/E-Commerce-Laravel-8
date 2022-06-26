@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\HomeBannerController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ProductReviewController;
 /* ******** Admin Controller End ************/
 
 /* ******** Front Controller Start ************/
@@ -170,6 +171,11 @@ Route::group(['middleware'=>'admin_auth'], function(){
     Route::get('admin/update_payment_status/{status}/{id}', [OrderController::class, 'update_payment_status']);
     Route::get('admin/update_order_status/{status}/{id}', [OrderController::class, 'update_order_status']);
     Route::post('admin/update_track_details/{id}', [OrderController::class, 'update_track_details']);
+
+// Product Review
+    Route::get('admin/product_review', [ProductReviewController::class, 'index']);
+    Route::get('admin/update_product_review_status/{status}/{id}', [ProductReviewController::class, 'update_product_review_status']);
+
 
 
 // Logout Routes

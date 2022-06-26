@@ -139,21 +139,12 @@
                         @foreach($product_review as $list)
                    <li>
                       <div class="media">
-                        <div class="media-left">
-                          <a href="#">
-                            <img class="media-object" src="img/testimonial-img-3.jpg" alt="girl image">
-                          </a>
-                        </div>
                         <div class="media-body">
                           <h4 class="media-heading"><strong>{{$list->name}}</strong> - <span>{{getCustomDate($list->added_on)}}</span></h4>
                           <div class="aa-product-rating">
 
                               <span class="rating_text">{{$list->rating}}</span>
-                            <!-- <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star-o"></span> -->
+
                           </div>
                           <p>{{$list->review}}</p>
                         </div>
@@ -178,11 +169,7 @@
                             <option value="Very Good">Very Good</option>
                             <option value="Fantastic">Fantastic</option>
                         </select>
-                        <!-- <a href="#"><span class="fa fa-star-o"></span></a>
-                        <a href="#"><span class="fa fa-star-o"></span></a>
-                        <a href="#"><span class="fa fa-star-o"></span></a>
-                        <a href="#"><span class="fa fa-star-o"></span></a>
-                        <a href="#"><span class="fa fa-star-o"></span></a> -->
+
                      </div>
 
                      <div class="form-group">
