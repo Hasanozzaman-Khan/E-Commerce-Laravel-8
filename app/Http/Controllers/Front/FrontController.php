@@ -287,6 +287,9 @@ class FrontController extends Controller
         $color_id = $request->post('color_id');
         $pqty = $request->post('pqty');
         $product_id = $request->post('product_id');
+
+
+
         // echo '<pre>';
         // print_r($uid);
         // die();
@@ -300,6 +303,15 @@ class FrontController extends Controller
                 ->get();
         // prx( $result[0]->id);
         $product_attr_id =  $result[0]->id;
+
+        $getAvailableQty = getAvailableQty($product_id, $product_attr_id);
+
+        $finalAvailable = $getAvailableQty[0]->pqty - $getAvailableQty[0]->qty;
+
+        if ($pqty > $finalAvailable) {
+            return response()->json(['msg'=>"Not available", 'data'=>"Only $finalAvailable left"]);
+        }
+        // prx($finalAvailable);
 
         $check = DB::table('cart')
                 ->where(['user_id'=>$uid])
