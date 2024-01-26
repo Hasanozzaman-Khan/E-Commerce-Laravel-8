@@ -24,6 +24,7 @@ class FrontController extends Controller
                 ->get();
 
 
+
         foreach ($result['home_categories'] as $list) {
             $result['home_categories_product'][$list->id] =
                 DB::table('products')
@@ -47,7 +48,7 @@ class FrontController extends Controller
                 ->where(['status'=>1])
                 ->where(['is_home'=>1])
                 ->get();
-
+// dd($result);
 // Special offers
     // featured
         $result['home_featured_product'][$list->id] =
@@ -64,7 +65,7 @@ class FrontController extends Controller
                 ->where(['products_attr.products_id'=>$list1->id])
                 ->get();
         }
-
+// dd($result);
     // Tranding
         $result['home_tranding_product'][$list->id] =
             DB::table('products')
